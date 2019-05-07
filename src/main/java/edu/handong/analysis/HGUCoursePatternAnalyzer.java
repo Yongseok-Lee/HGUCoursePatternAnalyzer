@@ -3,8 +3,8 @@ package edu.handong.analysis;
 import edu.handong.analysis.datamodel.Course;
 import edu.handong.analysis.datamodel.Student;
 
-public class HGUCoursePatternAnalyzer {
-	
+public class HGUCoursePatternAnalyzer
+{	
 	String[] lines = {	"1999-1, JC Nam, Java Programming",
 						"1999-2, JC Nam, Programming Language Theory",
 						"1999-1, JC Nam, Data Structures",
@@ -28,37 +28,72 @@ public class HGUCoursePatternAnalyzer {
 	 * This method runs our analysis logic to get the list of student and course names from lines.
 	 * @param args
 	 */
-	public void run(String[] args) {
+	public void run(String[] args)
+	{	
+		this.numOfStudents = Integer.parseInt(args[0]);
+		this.numOfCourses = Integer.parseInt(args[1]);
 		
-		numOfStudents = Integer.parseInt(args[0]);
-		numOfCourses = Integer.parseInt(args[1]);
-	
-		students = initiateStudentArrayFromLines(lines);
+		this.students = this.initiateStudentArrayFromLines(this.lines);
 		
-		System.out.println("Number of All Students: " + numOfStudents);
-		for(Student student: students) {
-			System.out.println(student.getName());
+		System.out.println("Number of All Students: " + this.numOfStudents);
+		
+		for (Student student: this.students)
+		{
+			if (student != null)
+			{
+				System.out.println(student.getName());
+			}
 		}
 		
-		courses = initiateCourseArrayFromLines(lines);
-		System.out.println("Number of All Courses: " + numOfCourses);
-		for(Course course: courses) {
-			System.out.println(course.getCourseName());
-		}
+		this.courses = this.initiateCourseArrayFromLines(this.lines);
 		
+		System.out.println("Number of All Courses: " + this.numOfCourses);
+		
+		for (Course course: this.courses)
+		{
+			if (course != null)
+			{
+				System.out.println(course.getCourseName());
+			}
+		}
 	}
 
 	/**
 	 * This method returns a Student array to initiate the field, students, from lines.
 	 * @param lines
-	 * @return
+	 * @return Student[]
 	 */
-	private Student[] initiateStudentArrayFromLines(String[] lines) {
-		
+	private Student[] initiateStudentArrayFromLines(String[] lines)
+	{	
 		// TODO: implement this method
+		int numOfLines = 0;
+		for (String line : lines)
+		{
+			numOfLines++;
+		}
 		
+		Student[] temp = new Student[numOfLines];
+		for (int i = 0; i < numOfLines; i++)
+		{
+			Student student = new Student(lines[i].split(", ")[1]);
+			
+			if (!studentExist(temp, student))
+			{
+				temp[i] = student;
+			}
+		}
 		
-		return null;
+		this.students = new Student[this.numOfStudents];
+		int count = 0;
+		for (Student student : temp)
+		{
+			if (student != null)
+			{
+				this.students[count++] = student;
+			}
+		}
+		
+		return this.students;
 	}
 
 	/**
@@ -67,23 +102,56 @@ public class HGUCoursePatternAnalyzer {
 	 * @param student
 	 * @return boolean
 	 */
-	private boolean studentExist(Student[] students, Student student) {
-		
+	private boolean studentExist(Student[] students, Student student)
+	{	
 		// TODO: implement this method
-
+		for (Student student_ : students)
+		{
+			if (student_ != null && student.getName().equals(student_.getName()))
+			{
+				return true;
+			}
+		}
+		
 		return false;
 	}
 	
 	/**
 	 * This method returns a Course array to initiate the field, courses, from lines.
 	 * @param lines
-	 * @return
+	 * @return Course[]
 	 */
-	private Course[] initiateCourseArrayFromLines(String[] lines) {
-		
+	private Course[] initiateCourseArrayFromLines(String[] lines)
+	{
 		// TODO: implement this method
+		int numOfLines = 0;
+		for (String line : lines)
+		{
+			numOfLines++;
+		}
 		
-		return null;
+		Course[] temp = new Course[numOfLines];
+		for (int i = 0; i < numOfLines; i++)
+		{
+			Course course = new Course(lines[i].split(", ")[2]);
+			
+			if (!courseExist(temp, course))
+			{
+				temp[i] = course;
+			}
+		}
+		
+		this.courses = new Course[this.numOfCourses];
+		int count = 0;
+		for (Course course : temp)
+		{
+			if (course != null)
+			{
+				this.courses[count++] = course;
+			}
+		}
+
+		return this.courses;
 	}
 
 	/**
@@ -92,11 +160,17 @@ public class HGUCoursePatternAnalyzer {
 	 * @param course
 	 * @return boolean
 	 */
-	private boolean courseExist(Course[] courses, Course course) {
-		
+	private boolean courseExist(Course[] courses, Course course)
+	{	
 		// TODO: implement this method
-
+		for (Course course_ : courses)
+		{
+			if (course_ != null && course.getCourseName().equals(course_.getCourseName()))
+			{
+				return true;
+			}
+		}
+		
 		return false;
 	}
-
 }
